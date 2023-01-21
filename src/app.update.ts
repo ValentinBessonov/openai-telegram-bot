@@ -21,8 +21,15 @@ export class AppUpdate {
     async hears(@Ctx() ctx: Context) {
         if (ctx.from?.username && this.frendlyUserNames.includes(ctx.from.username)) {
             if (ctx.message) {
-                var aiRespondMessage = await this.openaiApiService.sendMessage((ctx.message as any).text)
-                ctx.reply(aiRespondMessage);
+                try {
+                    var aiRespondMessage = await this.openaiApiService.sendMessage((ctx.message as any).text, ctx.from.username)
+                    ctx.reply(aiRespondMessage);
+                }
+                catch(er){
+                    console.log(er);
+                    ctx.reply("Ooops! Error! Please try again.");
+                }
+                
                 return;
             }
         }

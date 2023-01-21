@@ -9,7 +9,7 @@ enum Model {
 @Injectable({ scope: Scope.TRANSIENT })
 export class OpenAIApiService {
 
-    async sendMessage(message: string): Promise<string> {
+    async sendMessage(message: string, userId: string): Promise<string> {
         const configuration = new Configuration({
             apiKey: process.env.OPENAI_API_KEY,
         });
@@ -23,6 +23,7 @@ export class OpenAIApiService {
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0.6,
+            user: userId,            
         });
 
         return response.data.choices[0].text ?? "oops";
